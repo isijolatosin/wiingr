@@ -9,7 +9,7 @@ function Layout({ children }) {
 	const { dispatch, state } = useAppContext();
 	const isDaytime = () => {
 		const currentHour = new Date().getHours();
-		return currentHour >= 6 && currentHour < 18; // Assuming daytime is between 6 AM and 6 PM
+		return currentHour >= 7 && currentHour < 19; // Assuming daytime is between 6 AM and 6 PM
 	};
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ function Layout({ children }) {
 
 	return (
 		<div className="mx-auto ">
-			<HeaderComponent siteTheme={siteTheme} />
+			<HeaderComponent siteTheme={siteTheme} isDay={state?.isDay} />
 			<div className={[siteTheme?.background, siteTheme.textColor].join(" ")}>
 				{children}
 			</div>
