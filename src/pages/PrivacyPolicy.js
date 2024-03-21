@@ -21,7 +21,7 @@ function PrivacyPolicy() {
 	const { state } = useAppContext();
 	return (
 		<Layout>
-			<main className="px-5 pt-24 pb-10 mx-auto max-w-max-content-width lg:px-0">
+			<main className="px-4 pt-24 pb-10 mx-auto max-w-max-content-width ">
 				<h1 className="pt-5 text-3xl font-bold font-arima">Privacy Policy</h1>
 				<section className="pb-5 ">
 					<HeadParagraph
