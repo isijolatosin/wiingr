@@ -5,6 +5,7 @@ const darkTheme = {
 	background: "bg-deepGrey",
 	textColor: "text-brandwhite",
 	borderColor: "border-linesLight",
+	linkColor: "text-highlight",
 };
 
 const lightTheme = {
@@ -14,6 +15,7 @@ const lightTheme = {
 	background: "bg-brandwhite",
 	textColor: "text-deepGrey",
 	borderColor: "border-linesFaint",
+	linkColor: "text-brand",
 };
 
 export { lightTheme, darkTheme };

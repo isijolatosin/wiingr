@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Link as ScrollLink } from "react-scroll";
+import { debounce } from "throttle-debounce";
+
 import HeadParagraph from "../reusable-components/HeadParagraph";
 import Layout from "../reusable-components/Layout";
 import { useAppContext } from "../context/ThemeContext";
@@ -18,10 +21,62 @@ const tableOfContentArray = [
 ];
 
 function PrivacyPolicy() {
-	const { state } = useAppContext();
+	const { siteTheme, state } = useAppContext();
+	const [showIcon, setShowIcon] = useState(false);
+
+	useEffect(() => {
+		const handleScroll = debounce(200, () => {
+			const windowWidth = window.innerWidth;
+			let cap = 5000;
+			if (windowWidth <= 412) cap = 9000;
+			const scrollOffset = window.scrollY || window.pageYOffset;
+			if (scrollOffset < cap) setShowIcon(false);
+			if (scrollOffset > cap) setShowIcon(true);
+		});
+
+		window.addEventListener("scroll", handleScroll);
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
+
 	return (
 		<Layout>
-			<main className="px-4 pt-24 pb-10 mx-auto max-w-max-content-width ">
+			<main
+				id="main"
+				className="relative px-4 pt-24 pb-10 mx-auto max-w-max-content-width scroll-smooth">
+				{showIcon && (
+					<ScrollLink
+						to="main"
+						smooth={true}
+						duration={500}
+						offset={-100}
+						className="cursor-pointer">
+						<div
+							className={[
+								"fixed right-4 bottom-20 sm:right-12 sm:bottom-28 rounded-full w-6 h-6 p-1",
+								siteTheme.headingBackground,
+							].join(" ")}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth={1.5}
+								stroke="currentColor"
+								className={[
+									"w-full h-full",
+									state.isDay ? "text-brandwhite" : "text-deepGrey",
+								].join(" ")}>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="m4.5 15.75 7.5-7.5 7.5 7.5"
+								/>
+							</svg>
+						</div>
+					</ScrollLink>
+				)}
+
 				<h1 className="pt-5 text-3xl font-bold font-arima">Privacy Policy</h1>
 				<section className="pb-5 ">
 					<HeadParagraph
@@ -83,7 +138,9 @@ function PrivacyPolicy() {
 								<p className="pt-5 text-base">
 									<strong>
 										If you reside in California, please refer to our{" "}
-										<a href="/" className="underline text-brand">
+										<a
+											href="/"
+											className={["underline", siteTheme.linkColor].join(" ")}>
 											California Privacy Statement
 										</a>
 										, which complements this Privacy Policy.
@@ -104,12 +161,19 @@ function PrivacyPolicy() {
 								</p>
 								<ul className="pt-5 text-base font-thin list-inside">
 									{tableOfContentArray.map((content, idx) => (
-										<li key={idx} className="list-[disc] text-brand">
-											<a
-												href={`#${content.replace(/\s/g, "").toLowerCase()}`}
-												className="underline ">
+										<li
+											key={idx}
+											className={["list-[disc]", siteTheme.linkColor].join(
+												" "
+											)}>
+											<ScrollLink
+												to={`${content.replace(/\s/g, "").toLowerCase()}`}
+												smooth={true}
+												duration={500}
+												offset={-100}
+												className="underline cursor-pointer">
 												{content}
-											</a>
+											</ScrollLink>
 										</li>
 									))}
 								</ul>
@@ -129,7 +193,9 @@ function PrivacyPolicy() {
 								<p className="pt-1 text-base font-thin ">
 									To understand your California privacy rights, please refer to
 									our{" "}
-									<a href="/" className="underline text-brand">
+									<a
+										href="/"
+										className={["underline", siteTheme.linkColor].join(" ")}>
 										California Privacy Statement
 									</a>
 									.
@@ -139,9 +205,11 @@ function PrivacyPolicy() {
 					/>
 					<HeadParagraph
 						HeadComponent={() => (
-							<h2 id="whoweare" className="pt-5 text-xl font-bold font-arima">
+							<h1
+								id="whoweare"
+								className="pt-5 text-xl font-bold font-arima scroll-smooth">
 								1. Who We Are
-							</h2>
+							</h1>
 						)}
 						ParagraphComponent={() => (
 							<>
@@ -151,6 +219,7 @@ function PrivacyPolicy() {
 									your information in accordance with this Privacy Policy
 									(referred to as the “data controller”) is:
 								</p>
+								<br />
 							</>
 						)}
 					/>
@@ -178,6 +247,7 @@ function PrivacyPolicy() {
 									outlined in that policy—rather than this Privacy Policy—will
 									govern its use.
 								</p>
+								<br />
 							</>
 						)}
 					/>
@@ -195,13 +265,16 @@ function PrivacyPolicy() {
 									It's evident that in order to facilitate meaningful
 									connections, we require certain information about you,
 									including basic profile details and your preferences regarding
-									the types of individuals you'd like to meet. Additionally, we
-									gather data about your usage of our services, including access
-									logs. We may also obtain information from third-party sources,
-									such as when you access our services through your social media
-									account or upload information from your social media account
-									to complete your profile. For further elaboration, we provide
-									more detailed information below.
+									the types of individuals you'd like to meet. Please note that
+									some of the information you provided can be updated at any
+									time through the app settings. The more comprehensive your
+									profile, the better our system can generate accurate matches
+									and connections for you. To maintain authenticity and ensure
+									user safety, we require your name and date of birth during
+									onboarding and cannot be updated later. We appreciate your
+									cooperation as we work towards creating a trusted and
+									enjoyable experience for all users. For further elaboration,
+									we provide more detailed information below.
 								</p>
 								<div className="ml-5">
 									<HeadParagraph
@@ -237,8 +310,8 @@ function PrivacyPolicy() {
 														additional information, including details about your
 														bio, interests, as well as content such as photos
 														and videos. For certain content types, such as
-														pictures or videos, you may grant us access to your
-														camera or photo album.
+														pictures, you may grant us access to your camera or
+														photo album.
 													</li>
 													<br />
 													<li className="list-[disc]">
@@ -256,12 +329,6 @@ function PrivacyPolicy() {
 														may include your debit or credit card number and
 														other financial details, which are processed by our
 														payment processors.
-													</li>
-													<br />
-													<li className="list-[disc]">
-														When you opt to engage in our promotions, events, or
-														contests, we collect registration or entry
-														information provided by you.
 													</li>
 													<br />
 													<li className="list-[disc]">
@@ -284,6 +351,26 @@ function PrivacyPolicy() {
 														services, ensuring the safety of our community.
 													</li>
 													<br />
+													<p className="list-[disc]">
+														We highly recommend and encourage you, as well as
+														all our members, to thoughtfully consider the
+														information you choose to share about yourself. We
+														advise against including email addresses, URLs,
+														instant messaging details, phone numbers, full names
+														or addresses, credit card details, national identity
+														numbers, driver's license details, or any other
+														sensitive information that could be subject to abuse
+														or misuse on your profile.
+														<br />
+														<br />
+														When you post information about yourself or utilize
+														the messaging function to interact with other users,
+														the extent of personal information you choose to
+														share is at your own discretion and risk. For more
+														details regarding who can access the content you
+														post on Wiingr, please refer to Section 5 below.
+													</p>
+													<br />
 												</ul>
 											</>
 										)}
@@ -297,27 +384,25 @@ function PrivacyPolicy() {
 										ParagraphComponent={() => (
 											<>
 												<p className="pt-1 text-base font-thin ">
-													In addition to the information you may provide us
-													directly, we receive information about you from
-													others, including:
+													In addition to the information you directly provide to
+													us, we may also receive information about you from
+													other sources, including:
 												</p>
 												<ul className="pt-5 text-base font-thin list-inside">
 													<li className="list-[disc]">
 														<strong>Members:</strong> Members may provide
-														information about you as they use our services, for
-														instance as they interact with you or if they submit
-														a report involving you.
+														information about you as they utilize our services,
+														such as through interactions with you or by
+														submitting reports involving you.
 													</li>
 													<br />
 													<li className="list-[disc]">
-														<strong>Social Media:</strong> You may decide to
-														share information with us through your social media
-														account, for instance if you decide to create and
-														log into your account via your social media or other
-														account (e.g., Facebook, Google or Apple) or to
-														upload onto our services information such as photos
-														from one of your social media accounts (e.g.,
-														Instagram or Spotify).
+														<strong>Social Media:</strong> You may choose to
+														share information with us by providing your social
+														media account link, such as updating your social tab
+														in the app settings (Facebook, Instagram, Snapchat,
+														or TikTok), or by adding your playlist link from
+														audio streaming apps (e.g., Apple Music or Spotify).
 													</li>
 													<br />
 												</ul>
@@ -334,36 +419,31 @@ function PrivacyPolicy() {
 										ParagraphComponent={() => (
 											<>
 												<p className="pt-1 text-base font-thin ">
-													When you use our services, this generates technical
-													data about which features you’ve used, how you’ve used
-													them and the devices you use to access our services.
-													See below for more details.
+													When you utilize our services, it generates technical
+													data regarding the features you've accessed, how
+													you've interacted with them, and the devices you've
+													used to access our services. Please refer below for
+													more detailed information.
 												</p>
 												<ul className="pt-5 text-base font-thin list-inside">
 													<li className="list-[disc]">
 														<strong>Usage Information:</strong> Using the
-														services generates data about your activity on our
-														services, for instance how you use them (e.g., when
-														you logged in, features you’ve been using, actions
-														taken, information shown to you, referring webpages
-														address and ads that you interacted with) and your
-														interactions with other members (e.g., members you
-														connect and interact with, and when you matched and
-														exchanged messages with them).
+														services generates data about your activity,
+														including how you utilize them (such as when you log
+														in, the actions you take, and the information
+														displayed to you) and your interactions with other
+														members (such as members you connect and interact
+														with, and when you match and exchange messages with
+														them).
 													</li>
 													<br />
 													<li className="list-[disc]">
 														<strong>Device information:</strong> We collect
 														information from and about the device(s) you use to
 														access our services, including hardware and software
-														information such as IP address, device ID and type,
-														apps settings and characteristics, app crashes,
-														advertising IDs (which are randomly generated
-														numbers that you can reset by going into your
-														device’ settings and, in some cases, disable
-														entirely), and identifiers associated with cookies
-														or other technologies that may uniquely identify a
-														device or browser.
+														information such as IP address, device type or other
+														technologies that may uniquely identify a device or
+														browser.
 													</li>
 													<br />
 													<strong>
@@ -374,21 +454,25 @@ function PrivacyPolicy() {
 														<strong>Precise geolocation data: </strong> If you
 														give us your consent, we can collect your precise
 														geolocation (latitude and longitude) from your
-														device. The collection of your geolocation may occur
-														in the background even when you aren’t using the
-														services if the permission you gave us expressly
-														permits such collection. If you decline permission
-														for us to collect your precise geolocation, we will
-														not collect it, and our services that rely on
-														precise geolocation may not be available to you.
+														device. The collection of your geolocation occurs
+														when you enable it during onboarding or reset it in
+														the app settings. This information helps us identify
+														your physical location and personalize the app,
+														making it easier for you to interact with other
+														users. By enabling the display of general locality
+														information to users viewing your profile and
+														showing you profiles of other users who are near
+														you. If you decline permission for us to collect
+														your precise geolocation, we will not collect it,
+														and certain services that rely on precise
+														geolocation may not be available to you.
 													</li>
 													<br />
 													<li className="list-[circle] ml-4">
 														<strong>Other information: </strong> We may collect
-														other information with your permission, such as
-														photos and videos (for instance, if you want to
-														publish a photo or video or participate in streaming
-														features on our services).
+														additional information with your permission,
+														including photos, especially if you choose to share
+														media content.
 													</li>
 													<br />
 													<br />
@@ -411,39 +495,34 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<p className="pt-1 text-base font-thin ">
-									The main reason we use your information is to deliver and
-									improve our services. Additionally, we use your info to help
-									keep you and our community safe, and to provide you with
-									advertising that may be of interest to you. Read on for a more
-									detailed explanation of the various reasons for which we use
-									your information, together with practical examples.
+									The primary purpose of utilizing your information is to
+									deliver and enhance our services. Furthermore, we employ your
+									data to ensure the safety of both you and our community.
+									Below, you'll find a more detailed explanation of the various
+									reasons for which we utilize your information, accompanied by
+									practical examples.
 								</p>
 								<div className="ml-5">
 									<HeadParagraph
 										HeadComponent={() => (
 											<h2 className="pt-2 text-lg font-bold font-arima">
-												To administer your account and provide our services to
-												you
+												To manage your account and deliver our services to you
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<ul className="text-base font-thin list-inside">
 												<li className="list-[disc]">
-													Create and manage your account
+													Establish and oversee your account.
 												</li>
 												<li className="list-[disc]">
-													Provide you with customer support and respond to your
-													requests
+													Offer customer support and address your inquiries.
 												</li>
 												<li className="list-[disc]">
-													Communicate with you about our services
+													Keep you informed about our services.
 												</li>
 												<li className="list-[disc]">
-													Personalize pricing, offer discounts and other
-													promotions, and complete your transactions
-												</li>
-												<li className="list-[disc]">
-													Administer sweepstakes and contests
+													Tailor pricing, extend discounts and promotions, and
+													finalize your transactions.
 												</li>
 											</ul>
 										)}
@@ -451,20 +530,20 @@ function PrivacyPolicy() {
 									<HeadParagraph
 										HeadComponent={() => (
 											<h2 className="pt-2 text-lg font-bold font-arima">
-												To help you connect with other users
+												Facilitate connections with other users
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<ul className="text-base font-thin list-inside">
 												<li className="list-[disc]">
-													Recommend you to other members and recommend other
-													members to you
+													Suggest you to other members and suggest other members
+													to you.
 												</li>
 												<li className="list-[disc]">
-													Show members’ profiles to one another
+													Display profiles of members to each other
 												</li>
 												<li className="list-[disc]">
-													Enable members to search for and connect with members
+													Facilitate member searches and connections
 												</li>
 											</ul>
 										)}
@@ -472,17 +551,27 @@ function PrivacyPolicy() {
 									<HeadParagraph
 										HeadComponent={() => (
 											<h2 className="pt-2 text-lg font-bold font-arima">
-												To provide new Tinder services to you
+												Enhance our services and innovate new offerings.
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<ul className="text-base font-thin list-inside">
 												<li className="list-[disc]">
-													Register you and display your profile on new Tinder
-													features and apps
+													Conduct focus groups, market studies, and surveys
 												</li>
 												<li className="list-[disc]">
-													Administer your account on these new features and apps
+													Analyze interactions with customer care teams to
+													enhance our service quality
+												</li>
+												<li className="list-[disc]">
+													Gain insights into members' typical usage patterns to
+													enhance services. This may involve modifying the look,
+													feel, or features based on member feedback and
+													reactions.
+												</li>
+												<li className="list-[disc]">
+													Innovate new features and services, such as expanding
+													an interests-based feature based on member requests
 												</li>
 											</ul>
 										)}
@@ -490,97 +579,63 @@ function PrivacyPolicy() {
 									<HeadParagraph
 										HeadComponent={() => (
 											<h2 className="pt-2 text-lg font-bold font-arima">
-												To improve our services and develop new ones
+												To safeguard against, identify, and combat fraud as well
+												as other illegal or unauthorized activities
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<ul className="text-base font-thin list-inside">
 												<li className="list-[disc]">
-													Administer focus groups, market studies and surveys
-												</li>
-												<li className="list-[disc]">
-													Review interactions with customer care teams to
-													improve our quality of service
-												</li>
-												<li className="list-[disc]">
-													Understand how members typically use the services to
-													improve them (for instance, we may decide to change
-													the look and feel or even substantially modify a given
-													feature based on how members react to it)
-												</li>
-												<li className="list-[disc]">
-													Develop new features and services (for example, we may
-													decide to build a new interests-based feature further
-													to requests received from members)
-												</li>
-											</ul>
-										)}
-									/>
-									<HeadParagraph
-										HeadComponent={() => (
-											<h2 className="pt-2 text-lg font-bold font-arima">
-												To provide offers and operate advertising and marketing
-												campaigns
-											</h2>
-										)}
-										ParagraphComponent={() => (
-											<ul className="text-base font-thin list-inside">
-												<li className="list-[disc]">
-													Perform and measure the effectiveness of advertising
-													campaigns on our services and marketing our services
-													off our platform
-												</li>
-												<li className="list-[disc]">
-													Communicate with you about products or services that
-													we believe may interest you
-												</li>
-											</ul>
-										)}
-									/>
-									<HeadParagraph
-										HeadComponent={() => (
-											<h2 className="pt-2 text-lg font-bold font-arima">
-												To prevent, detect and fight fraud and other illegal or
-												unauthorized activities
-											</h2>
-										)}
-										ParagraphComponent={() => (
-											<ul className="text-base font-thin list-inside">
-												<li className="list-[disc]">
-													Find and address ongoing, suspected or alleged
+													Identify and resolve ongoing, suspected, or alleged
 													violations of our{" "}
-													<a href="/" className="underline text-brand">
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
 														Terms of Use
 													</a>
-													, notably through the review of reports and
-													interactions between members
+													, particularly by reviewing reports and member
+													interactions
 												</li>
 												<li className="list-[disc]">
-													Better understand and design countermeasures against
-													violations of our{" "}
-													<a href="/" className="underline text-brand">
+													Enhance comprehension and formulate strategies to
+													counter violations of our{" "}
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
 														Terms of Use
 													</a>
 												</li>
 												<li className="list-[disc]">
-													Retain data related to violations of our{" "}
-													<a href="/" className="underline text-brand">
+													Maintain data concerning violations of our{" "}
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
 														Terms of Use
 													</a>{" "}
-													to address the violation and prevent against
-													recurrences
+													to address the infraction and mitigate against future
+													occurrences
 												</li>
 												<li className="list-[disc]">
-													Enforce or exercise our rights, for example our rights
-													set out in our{" "}
-													<a href="/" className="underline text-brand">
+													Implement or assert our rights, such as those outlined
+													in our{" "}
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
 														Terms of Use
 													</a>
 												</li>
 												<li className="list-[disc]">
-													Communicate to individuals who submit a report,
-													including what we’ve done as a result of their
-													submission
+													Provide communication to individuals who submit a
+													report, detailing the actions taken in response to
+													their submission
 												</li>
 											</ul>
 										)}
@@ -588,87 +643,93 @@ function PrivacyPolicy() {
 									<HeadParagraph
 										HeadComponent={() => (
 											<h2 className="pt-2 text-lg font-bold font-arima">
-												To ensure legal compliance
+												Guarantee adherence to legal requirements
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<ul className="text-base font-thin list-inside">
 												<li className="list-[disc]">
-													Comply with legal requirements
+													Adhere to legal obligations
 												</li>
-												<li className="list-[disc]">Assist law enforcement</li>
+												<li className="list-[disc]">
+													Provide assistance to law enforcement authorities
+												</li>
 												<br />
 												<p>
-													For information on how we process personal information
+													To learn more about how we handle personal information
 													through profiling and automated decision-making,
-													please see our{" "}
-													<a href="/" className="underline text-brand">
+													please refer to our [privacy policy/terms of
+													service/other relevant document].{" "}
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
 														FAQ
 													</a>
-													. <br /> To process your information as described in
-													this Privacy Policy, we rely on the following legal
+													. <br /> To handle your information as outlined in
+													this Privacy Policy, we depend on the following legal
 													bases:
 												</p>
 												<br />
 												<li className="list-[disc]">
-													Provide our service to you: The reason we process your
-													information for purposes A, B and C above is to
-													perform the contract that you have with us. For
-													instance, as you go about using our service to build
-													meaningful connections, we use your information to
-													maintain your account and your profile, make it
-													viewable to other members and recommend other members
-													to you and to otherwise provide our free and paid
-													features to you and other members.
+													<strong>To deliver our service to you:</strong> We
+													process your information for purposes 1, 2, and 3
+													mentioned above to fulfill the contract you have with
+													us. For example, as you utilize our service to
+													establish meaningful connections, we utilize your
+													information to manage your account and profile,
+													display it to other members, suggest other members to
+													you, and provide our free and paid features to you and
+													other members
 												</li>
 												<li className="list-[disc]">
-													Legitimate interests: We process your information for
-													purposes D, E and F above, based on our legitimate
-													interest. For instance, we analyze users’ behavior on
-													our services to continuously improve our offerings, we
-													suggest offers we think might interest you and promote
-													our own services, we process information to help keep
-													our members safe and we process data where necessary
-													to enforce our rights, assist law enforcement and
-													enable us to defend ourselves in the event of a legal
-													action.
+													<strong>Legitimate interests:</strong> We process your
+													information for purposes 4 and 5 above, relying on our
+													legitimate interest. For example, we process
+													information to ensure the safety of our members and to
+													enforce our rights, provide assistance to law
+													enforcement, and enable us to defend ourselves in
+													legal proceedings when necessary
 												</li>
 												<li className="list-[disc]">
-													Comply with applicable laws and regulations: We
-													process your information for purpose G above where it
-													is necessary for us to comply with applicable laws and
-													regulations and evidence our compliance with
-													applicable laws and regulations. For example, we
-													retain traffic data and data about transactions in
-													line with our accounting, tax and other statutory data
-													retention obligations and to be able to respond to
-													valid access requests from law enforcement. We also
-													keep data evidencing consents members give us and
-													decisions they may have taken to opt-out of a given
-													feature or processing.
+													<strong>
+														To comply with applicable laws and regulations:
+													</strong>{" "}
+													We process your information for purpose 5 above when
+													it is necessary for us to adhere to relevant laws and
+													regulations and to demonstrate our compliance with
+													them. For instance, we retain transactional data to
+													fulfill our accounting, tax, and other legal data
+													retention obligations, and to respond to lawful
+													requests from law enforcement. Additionally, we
+													maintain records of consents provided by members and
+													decisions they have made to opt-out of certain
+													features or processing
 												</li>
 												<li className="list-[disc]">
-													Consent: If you choose to provide us with information
-													that may be considered “special” or “sensitive” in
-													certain jurisdictions, such as your sexual
-													orientation, you’re consenting to our processing of
-													that information in accordance with this Privacy
-													Policy. From time to time, we may ask for your consent
-													to collect specific information such as your precise
-													geolocation or use your information for certain
-													specific reasons. In some cases, you may withdraw your
-													consent by adapting your settings (for instance in
-													relation to the collection of our precise geolocation)
-													or by deleting your content (for instance where you
-													entered information in your profile that may be
-													considered “special” or “sensitive”). In any case, you
-													may withdraw your consent at any time by contacting us
+													<strong>Consent:</strong> If you decide to provide us
+													with information that may be classified as "special"
+													or "sensitive" in certain jurisdictions, such as your
+													sexual orientation, you are giving your consent to our
+													processing of that information in accordance with this
+													Privacy Policy. Occasionally, we may request your
+													consent to collect specific information, like your
+													precise geolocation or to use your information for
+													particular reasons. In some instances, you can
+													withdraw your consent by adjusting your settings (for
+													example, concerning the collection of precise
+													geolocation) or by deleting your content (for
+													instance, if you provided sensitive information in
+													your profile). However, regardless, you have the right
+													to withdraw your consent at any time by contacting us
 													at the address provided at the end of this Privacy
-													Policy.
+													Policy
 												</li>
 											</ul>
 										)}
 									/>
+									<br />
 								</div>
 							</>
 						)}
@@ -684,14 +745,11 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<p className="pt-1 text-base font-thin">
-									Since our goal is to help you make meaningful connections, the
-									main sharing of members’ information is, of course, with other
-									members. We also share some types of members’ information with
-									service providers and partners who assist us in operating the
-									services, with other Match Group companies for specified
-									reasons as laid out below and, in some cases, legal
-									authorities. Read on for more details about how your
-									information is shared with others.
+									As our aim is to facilitate meaningful connections for you,
+									the primary sharing of members' information is naturally with
+									other members. Additionally, in some instances, with legal
+									authorities. Continue reading for further insights into how
+									your information is shared with others
 								</p>
 								<div className="ml-5">
 									<HeadParagraph
@@ -706,23 +764,30 @@ function PrivacyPolicy() {
 											<>
 												<p className="pt-1 text-base font-thin">
 													You share information with other members when you
-													voluntarily disclose information on the service
-													(including your public profile). Please be careful
-													with your information and make sure that the content
-													you share is stuff that you’re comfortable being
-													visible.
+													willingly disclose information on the service,
+													including your public profile. It's important to be
+													cautious with your information and ensure that the
+													content you share is something you're comfortable
+													being visible to others
 													<br />
 													<br />
-													If you choose to limit the audience for all or part of
-													your profile or for certain content or information
-													about you, then it will be visible according to your
-													settings.
+													f you decide to restrict the audience for all or
+													specific parts of your profile, as well as certain
+													content or information about you, it will only be
+													visible in accordance with your chosen settings
 													<br />
 													<br />
-													If someone submits a report involving you (such as a
-													claim you violated our Terms of Use), we may
-													communicate to the reporter actions, if any, we took
-													as a result of their report.
+													If someone submits a report involving you, such as a
+													claim that you violated our
+													<a
+														href="/"
+														className={["underline", siteTheme.linkColor].join(
+															" "
+														)}>
+														Terms of Use
+													</a>
+													), we may communicate to the reporter any actions we
+													have taken, if applicable, as a result of their report
 												</p>
 											</>
 										)}
@@ -732,27 +797,22 @@ function PrivacyPolicy() {
 											<h2
 												id="howweshareinformation"
 												className="pt-5 text-lg font-bold font-arima">
-												With our service providers and partners
+												With our service providers
 											</h2>
 										)}
 										ParagraphComponent={() => (
 											<>
 												<p className="pt-1 text-base font-thin">
-													We use vendors to help us operate, distribute, market
-													and improve our services, such as data hosting and
-													maintenance, analytics, customer care, marketing,
-													advertising, payment processing and security
-													operations. We also share information with vendors who
-													distribute and assist us in advertising our services.
-													For instance, we may share limited information on you
-													in hashed, non-human readable form to advertising
-													vendors.
+													We utilize vendors to aid in operating and enhancing
+													our services, including tasks such as data hosting and
+													maintenance, customer care, payment processing, and
+													security operations
 													<br />
 													<br />
-													We follow a strict vetting process prior to engaging
-													any vendor or working with any partner. Our vendors
-													and partners must agree to strict confidentiality
-													obligations.
+													Before engaging any vendor or partnering with any
+													entity, we adhere to a rigorous vetting process. Our
+													vendors and partners are required to agree to
+													stringent confidentiality obligations
 												</p>
 											</>
 										)}
@@ -768,11 +828,11 @@ function PrivacyPolicy() {
 										ParagraphComponent={() => (
 											<>
 												<p className="pt-1 text-base font-thin">
-													We may transfer your information if we are involved,
-													whether in whole or in part, in a merger, sale,
-													acquisition, divestiture, restructuring,
-													reorganization, dissolution, bankruptcy or other
-													change of ownership or control.
+													We may transfer your information in the event of our
+													involvement, whether wholly or partially, in a merger,
+													sale, acquisition, divestiture, restructuring,
+													reorganization, dissolution, bankruptcy, or any other
+													change of ownership or control
 												</p>
 											</>
 										)}
@@ -790,11 +850,11 @@ function PrivacyPolicy() {
 												<p className="pt-1 text-base font-thin">
 													We may disclose your information if reasonably
 													necessary: (i) to comply with a legal process, such as
-													a court order, subpoena or search warrant, government
-													/ law enforcement investigation or other legal
-													requirements; (ii) to assist in the prevention or
-													detection of crime (subject in each case to applicable
-													law); or (iii) to protect the safety of any person.
+													a court order, subpoena, or search warrant,
+													government/law enforcement investigation, or other
+													legal requirements; (ii) to aid in the prevention or
+													detection of crime (subject to applicable law in each
+													case); or (iii) to safeguard the safety of any person.
 												</p>
 											</>
 										)}
@@ -811,13 +871,13 @@ function PrivacyPolicy() {
 											<>
 												<p className="pt-1 text-base font-thin">
 													We may also share information: (i) if disclosure would
-													mitigate our liability in an actual or threatened
-													lawsuit; (ii) as necessary to protect our legal rights
-													and legal rights of our members, business partners or
-													other interested parties; (iii) to enforce our
-													agreements with you; and (iv) to investigate, prevent,
-													or take other action regarding illegal activity,
-													suspected fraud or other wrongdoing.
+													help reduce our liability in an actual or potential
+													lawsuit; (ii) as necessary to safeguard our legal
+													rights and the legal rights of our members, business
+													partners, or other relevant parties; (iii) to enforce
+													our agreements with you; and (iv) to investigate,
+													prevent, or address illegal activity, suspected fraud,
+													or other wrongdoing
 												</p>
 											</>
 										)}
@@ -833,22 +893,24 @@ function PrivacyPolicy() {
 										ParagraphComponent={() => (
 											<>
 												<p className="pt-1 text-base font-thin">
-													We may ask for your consent to share your information
-													with third parties. In any such case, we will make it
-													clear why we want to share the information.
+													We may request your consent to share your information
+													with third parties. If we do so, we will clearly
+													explain the reasons why we wish to share the
+													information
 												</p>
 											</>
 										)}
 									/>
 								</div>
 								<p className="pt-1 text-base font-thin">
-									We may use and share non-personal information (meaning
-									information that, by itself, does not identify who you are
-									such as device information, general demographics, general
-									behavioral data, location in de-identified form), as well as
-									personal information in hashed, non-human readable form, under
-									any of the above circumstances.
+									We may utilize and disclose non-personal information (defined
+									as information that does not personally identify you, such as
+									device information, general demographics, general behavioral
+									data, and de-identified location), as well as personal
+									information in hashed, non-human readable form, in any of the
+									situations mentioned above
 								</p>
+								<br />
 							</>
 						)}
 					/>
@@ -861,134 +923,138 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<div className="pt-1 text-base font-thin ">
-									We want you to be in control of your information, so we want
-									to remind you of the following options and tools available to
+									We aim for you to have control over your information, and
+									thus, we'd like to remind you of the following options and
+									tools at your disposal:
 									<br />
 									<ul className="pt-5 text-base font-thin list-inside">
 										<div className="ml-5">
 											<li className="list-[disc]">
 												<strong>Access / Update tools in the service. </strong>
-												Tools and account settings can help you access, rectify
-												or remove information that you provided to us and that’s
-												associated with your account directly within the
-												service. If you have any questions on those tools and
-												settings, please contact us using the help tab in
-												account setting.
+												Tools and account settings are available to help you
+												access, correct, or delete information you provided to
+												us that's linked to your account directly within the
+												service. Should you have any inquiries about these tools
+												and settings, please reach out to us via the help tab in
+												your account settings.
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Device permissions. </strong>
-												Mobile platforms can have permission systems for
-												specific types of device data and notifications, such as
-												phone contacts, pictures, location services, push
-												notifications and advertising identifiers. You can
-												change your settings on your device to either consent or
-												oppose the collection or processing of the corresponding
-												information or the display of the corresponding
-												notifications. Of course, if you do that, certain
-												services may lose functionality.
+												Mobile platforms often feature permission systems for
+												various types of device data and notifications,
+												including phone contacts, pictures, location services,
+												push notifications, and advertising identifiers. You
+												have the option to adjust your device settings to either
+												consent to or decline the collection or processing of
+												the relevant information or the display of
+												notifications. However, please be aware that modifying
+												these settings may result in certain services losing
+												functionality
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Uninstall </strong>
-												You can stop all information collection by an app by
-												uninstalling it using the standard uninstall process for
-												your device. Remember that uninstalling an app does NOT
-												close your account. To close your account, please use
-												the corresponding functionality on the service.
+												You can cease all information collection by an app by
+												uninstalling it through the standard uninstall process
+												for your device. It's important to note that
+												uninstalling an app does not deactivate your account. To
+												close your account, please utilize the corresponding
+												functionality provided within the service
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Account closure. </strong>
-												You can close your account by using the corresponding
-												functionality directly on the service.
+												You can close your account by using the appropriate
+												functionality directly within the service
 											</li>
 											<br />
 											<p>
-												We also want you to be aware of your privacy rights.
-												Depending on where you live, you may have the right to:
+												We also want you to be informed about your privacy
+												rights. Depending on your location, you may have the
+												right to:
 											</p>
 											<br />
 											<li className="list-[disc]">
 												<strong>Access/know. </strong>
 												You may have the right to request a copy of the
-												information we keep about you, and in certain
-												circumstances to receive this in a portable format. You
-												can exercise your right to access directly within the
-												service by putting in a request.
+												information we retain about you, and under certain
+												circumstances, to receive it in a portable format. You
+												can exercise your right to access this information
+												directly within the service by submitting a request
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Delete/erase. </strong>
-												You may request that we delete the personal information
-												we keep about you. You can exercise your right to delete
-												by submitting a request.
+												You have the right to request that we delete the
+												personal information we hold about you. You can exercise
+												your right to deletion by submitting a request
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Correct/rectify/update. </strong>
-												You can correct most information you provided to us by
-												editing your profile directly in the service. If you
-												believe the information we hold about you is inaccurate,
-												you may contact us to rectify it.
+												You can update most of the information you provided to
+												us by editing your profile directly within the service.
+												If you believe that the information we have about you is
+												inaccurate, you may contact us to correct it
 											</li>
 											<br />
 											<li className="list-[disc]">
 												<strong>Object/restrict. </strong>
 												You may also have the right to object to or request that
-												we restrict certain processing. To do so, please contact
-												us.
+												we restrict certain processing of your personal
+												information. To exercise this right, please contact us
 											</li>
 										</div>
 										<br />
 										<p>
-											For your protection and the protection of all of our
-											members, we may ask you to provide proof of identity
-											before we can answer the above requests. Keep in mind, we
-											may reject requests, including if we are unable to
-											authenticate you, if the request is unlawful or invalid,
-											or if it may infringe on trade secrets or intellectual
-											property or the privacy or other rights of someone else.
-											If you wish to receive information relating to another
-											member, such as a copy of any messages you received from
-											them through our service, the other member will have to
-											contact us to provide their written consent before the
-											information is released. We may also ask them to provide
-											proof of identity before we can answer the request. Also,
-											we may not be able to accommodate certain requests to
-											object to or restrict the processing of personal
-											information, notably where such requests would not allow
-											us to provide our service to you anymore. For instance, we
-											cannot provide our service if we do not have your date of
-											birth and thus cannot ensure that you are 18 years of age
-											or older.
+											For your security and that of all our members, we may
+											require you to provide proof of identity before we can
+											fulfill the above requests. Please note that we may reject
+											requests if we are unable to verify your identity, if the
+											request is unlawful or invalid, or if it might violate
+											trade secrets, intellectual property, or the privacy or
+											rights of others. If you seek information regarding
+											another member, such as copies of messages received from
+											them through our service, that member must contact us to
+											provide written consent before the information is
+											released. We may also request proof of identity from them
+											before processing the request. Additionally, there may be
+											certain requests to object to or restrict the processing
+											of personal information that we cannot accommodate,
+											particularly if fulfilling them would prevent us from
+											providing our service to you. For example, we cannot
+											provide our service without your date of birth, as we
+											cannot ensure that you are 18 years of age or older
 											<br />
 											<br />
-											If you are a resident of Virginia, Colorado, or
-											Connecticut, USA, if we deny your privacy request, you may
-											be able to appeal by contacting us, and explicitly
-											referencing “Privacy Request Appeal.” If you have concerns
-											about the result of your appeal you may contact the
-											attorney general for your state. Additionally, please note
-											that we do not “sell” your personal data, or use it for
-											“targeted advertising” or “profiling” in furtherance of
-											decisions that produce legal or similarly significant
-											effects, as those terms are defined by applicable law in
-											your state, so no opt-out choice is necessary.
+											If you reside in Virginia, Colorado, or Connecticut, USA,
+											and your privacy request is denied, you have the option to
+											appeal by contacting us and explicitly mentioning "Privacy
+											Request Appeal." If you are dissatisfied with the outcome
+											of your appeal, you can reach out to the attorney general
+											in your state. Additionally, it's important to note that
+											we do not engage in the "selling" of your personal data or
+											utilize it for "targeted advertising" or "profiling" that
+											could significantly impact legal matters, as defined by
+											relevant state laws. Therefore, no opt-out choice is
+											required
 											<br />
 											<br />
-											In certain countries, including in the European Economic
-											Area and the United Kingdom, you have a right to lodge a
-											complaint with the appropriate data protection authority
-											if you have concerns about how we process your personal
-											information. You can find information about your data
-											protection regulator in the European Economic Area here,
-											and in the United Kingdom here. The data protection
-											authority you can lodge a complaint with may be that of
-											your habitual residence, where you work or where an
-											alleged infringement took place.
+											In specific countries, such as those within the European
+											Economic Area and the United Kingdom, you possess the
+											right to file a complaint with the relevant data
+											protection authority if you have apprehensions regarding
+											the manner in which we handle your personal data.
+											Information regarding your data protection regulator
+											within the European Economic Area can be found here, and
+											within the United Kingdom here. The data protection
+											authority to which you can submit a complaint may
+											correspond to your usual place of residence, your
+											workplace, or where an alleged violation occurred
 										</p>
 									</ul>
+									<br />
 								</div>
 							</>
 						)}
@@ -1016,64 +1082,63 @@ function PrivacyPolicy() {
 									<div className="ml-5">
 										<ul className="pt-5 text-base font-thin list-inside">
 											<li className="list-[disc]">
-												To protect the safety and security of our members, we
-												implement a safety retention window of three months
-												following account closure, or one year following an
-												account ban. During this period, we keep your
-												information in the event that it might be necessary to
-												investigate unlawful or harmful conducts. The retention
-												of information during this safety retention window is
-												based on our legitimate interest as well as that of
-												potential third-party victims.
+												In order to safeguard the safety and security of our
+												members, we institute a safety retention period lasting
+												three months after an account closure, or one year
+												following an account ban. Throughout this duration, we
+												retain your information in case it becomes essential for
+												investigating unlawful or harmful behaviors. The
+												decision to retain information during this safety
+												retention period is founded on our legitimate interest
+												as well as that of potential third-party victims
 											</li>
 											<br />
 											<li className="list-[disc]">
-												Once the safety retention window elapses, we delete your
-												data and only keep limited information for specified
-												purposes, as laid out below:
+												After the safety retention window expires, we proceed to
+												delete your data entirely, retaining only minimal
+												information for specific purposes as outlined below:
 											</li>
 											<br />
 											<div className="ml-5">
 												<li className="list-[circle]">
-													We maintain limited data to comply with legal data
-													retention obligations: in particular, we keep
-													transaction data for 10 years to comply with tax and
-													accounting legal requirements, credit card information
-													for the duration the user may challenge the
-													transaction and “traffic data” / logs for one year to
-													comply with legal data retention obligations. We also
-													keep records of consents members give us for five
-													years to evidence our compliance with applicable law.
+													We retain a limited amount of data to fulfill legal
+													data retention obligations. Specifically, transaction
+													data is kept for a period of 10 years to adhere to tax
+													and accounting legal requirements. Credit card
+													information remains stored for the duration in which a
+													user may contest a transaction
 												</li>
 												<br />
 												<li className="list-[circle]">
-													We maintain limited information on the basis of our
-													legitimate interest: we keep customer care records and
-													supporting data as well as imprecise location of
-													download/purchase for five years to support our
-													customer care decisions, enforce our rights and enable
-													us to defend ourselves in the event of a claim,
-													information on the existence of past accounts and
-													subscriptions, which we delete three years after the
-													closure of your last account to ensure proper and
-													accurate financial forecasting and reporting, profile
-													data for one year in anticipation of potential
-													litigation, for the establishment, exercise or defence
-													of legal claims, and data necessary to prevent members
-													who were banned from opening a new account, for as
-													long as necessary to ensure the safety and vital
-													interests of our members.
+													We maintain limited information based on our
+													legitimate interests. Customer care records and
+													associated data, as well as imprecise location details
+													of downloads/purchases, are retained for five years to
+													support our customer care decisions, protect our
+													rights, and enable defense against potential claims.
+													Information regarding past accounts and subscriptions
+													is kept for three years after the closure of your last
+													account to ensure accurate financial forecasting and
+													reporting. Profile data is retained for one year in
+													anticipation of potential litigation, for the
+													establishment, exercise, or defense of legal claims.
+													Additionally, data necessary to prevent banned members
+													from opening new accounts is maintained for as long as
+													necessary to ensure the safety and vital interests of
+													our members.
 												</li>
 												<br />
 												<li className="list-[circle]">
-													Finally, we maintain information on the basis of our
-													legitimate interest where there is an outstanding or
-													potential issue, claim or dispute requiring us to keep
-													information (in particular if we receive a valid legal
-													subpoena or request asking us to preserve data (in
-													which case we would need to keep the data to comply
-													with our legal obligations) or if data would otherwise
-													be necessary as part of legal proceedings).
+													Lastly, we retain information based on our legitimate
+													interest in situations where there is an ongoing or
+													potential issue, claim, or dispute that necessitates
+													the retention of information. This includes instances
+													where we receive a valid legal subpoena or request to
+													preserve data, in which case we are obligated to
+													retain the data to comply with legal requirements.
+													Additionally, data may be kept if it is deemed
+													necessary for legal proceedings or would otherwise
+													serve a legal purpose
 												</li>
 												<br />
 											</div>
@@ -1094,11 +1159,11 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<p className="pt-1 text-base font-thin ">
-									Our services are restricted to individuals who are 18 years of
-									age or older. We do not permit individuals under the age of 18
-									on our platform. If you suspect that a member is under the age
-									of 18, please use the reporting mechanism available on the
-									service.
+									Our services are exclusively available to individuals who are
+									18 years of age or older. We strictly prohibit individuals
+									under the age of 18 from accessing our platform. If you
+									suspect that a member is under the age of 18, we encourage you
+									to utilize the reporting mechanism provided on the service
 								</p>
 								<br />
 							</>
@@ -1115,20 +1180,21 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<p className="pt-1 text-base font-thin ">
-									Because we’re always looking for new and innovative ways to
-									help you build meaningful connections and strive to make sure
-									explanations about our data practices remain up-to-date, this
-									policy may change over time. We will notify you before any
-									material changes take effect so that you have time to review
-									the changes.
+									As we continually seek new and innovative methods to assist
+									you in forming meaningful connections and ensure that our
+									explanations regarding data practices remain current, this
+									policy may undergo changes over time. Prior to the
+									implementation of any significant changes, we will notify you
+									to allow ample time for review
 								</p>
+								<br />
 							</>
 						)}
 					/>
 					<HeadParagraph
 						HeadComponent={() => (
 							<h2
-								id="nochildallowed"
+								id="howtocontactus"
 								className="pt-5 text-xl font-bold font-arima">
 								11. How to Contact Us
 							</h2>
@@ -1141,6 +1207,24 @@ function PrivacyPolicy() {
 									<a href="mailto:info.wiingr@gmail.com" className="text-brand">
 										here
 									</a>
+								</p>
+								<br />
+							</>
+						)}
+					/>
+
+					<HeadParagraph
+						HeadComponent={() => (
+							<h2
+								id="howtocontactus"
+								className="pt-5 font-bold text-md font-arima">
+								Effective Date
+							</h2>
+						)}
+						ParagraphComponent={() => (
+							<>
+								<p className="text-sm font-thin ">
+									This Privacy Policy was last updated on: 2nd April, 2024
 								</p>
 							</>
 						)}

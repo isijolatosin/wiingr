@@ -1,3 +1,5 @@
+#  File needed for netlify redirect. If this file is not in project, other pages on site will return Page Not Found on load
+ 
  [[redirects]]
   from = "/*"
   to="/"
