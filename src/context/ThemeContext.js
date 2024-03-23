@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useContext } from "react";
+import { darkTheme, lightTheme } from "../theme";
 
 const AppContext = createContext();
 
@@ -19,8 +20,11 @@ export const AppProvider = ({ children }) => {
 
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	let siteTheme = darkTheme;
+	if (state?.isDay) siteTheme = lightTheme;
+
 	return (
-		<AppContext.Provider value={{ state, dispatch }}>
+		<AppContext.Provider value={{ siteTheme, state, dispatch }}>
 			{children}
 		</AppContext.Provider>
 	);

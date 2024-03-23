@@ -20,14 +20,14 @@ function HeaderComponent({ siteTheme, isDay }) {
 			className={[
 				siteTheme?.headerBorder,
 				siteTheme?.headingBackground,
-				"border-b-[1px] px-3 lg:px-auto fixed w-full",
+				"border-b-[1px] px-3 lg:px-auto fixed w-full z-10",
 			].join(" ")}>
 			<div className="flex flex-row items-center py-2 mx-auto cursor-pointer max-w-max-content-width ">
 				<div className="w-5 h-5 sm:ml-2 sm:w-12 sm:h-12">
 					<Lottie options={defaultOptions} height="100%" width="100%" />
 				</div>
 				<div className="w-[3px] rounded-full h-11 bg-brand mx-3" />
-				<div className="flex-column sn:flex-row">
+				<div className="flex flex-column sn:flex-row sm:items-center">
 					<figure
 						onClick={() => navigate("/")}
 						className={[

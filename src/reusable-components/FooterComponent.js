@@ -14,7 +14,7 @@ function FooterComponent({ siteTheme }) {
 			className={[siteTheme?.headerBorder, siteTheme?.headingBackground].join(
 				" "
 			)}>
-			<div className="py-4 mx-auto text-[10px] text-center sm:text-sm text-lines/80 max-w-max-content-width">
+			<div className="py-2 mx-auto text-[10px] text-center text-lines/80 max-w-max-content-width">
 				<div className="">
 					{footerList.map((item, idx) => (
 						<Fragment key={idx}>
