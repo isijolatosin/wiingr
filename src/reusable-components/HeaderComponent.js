@@ -22,23 +22,23 @@ function HeaderComponent({ siteTheme, isDay }) {
 				siteTheme?.headingBackground,
 				"border-b-[1px] px-3 lg:px-auto fixed w-full z-10",
 			].join(" ")}>
-			<div className="flex flex-row items-center py-2 mx-auto cursor-pointer max-w-max-content-width ">
-				<div className="w-5 h-5 sm:ml-2 sm:w-12 sm:h-12">
+			<div className="flex flex-row items-center py-1 mx-auto cursor-pointer max-w-max-content-width ">
+				<div className="w-6 h-6 sm:ml-2 sm:w-10 sm:h-10">
 					<Lottie options={defaultOptions} height="100%" width="100%" />
 				</div>
 				<div className="w-[3px] rounded-full h-11 bg-brand mx-3" />
-				<div className="flex flex-column sn:flex-row sm:items-center">
+				<div className="flex flex-row items-center justify-between flex-1">
 					<figure
 						onClick={() => navigate("/")}
 						className={[
-							"text-2xl sm:text-5xl font-bold font-arima",
+							"text-2xl sm:text-3xl font-bold font-arima",
 							siteTheme?.headerTextColor,
 						].join(" ")}>
 						Wiingr
 					</figure>
 					<div
 						className={[
-							"font-thin flex-row items-center text-sm sm:text-base",
+							"font-thin flex-row items-center text-xs sm:text-sm float-right",
 							siteTheme?.headerTextColor,
 						].join(" ")}>
 						<Link
