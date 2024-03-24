@@ -11,8 +11,8 @@ function App() {
 	return (
 		<AppProvider>
 			<Routes>
-				<Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
-				<Route exact path="/terms-of-service" element={<TermsOfService />} />
+				<Route exact path="/privacy" element={<PrivacyPolicy />} />
+				<Route exact path="/terms" element={<TermsOfService />} />
 				<Route exact path="/contact-us" element={<ContactUs />} />
 				<Route exact path="*" element={<ErrorPage />} />
 				<Route exact path="/" element={<HomePage />} />

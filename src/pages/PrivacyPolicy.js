@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { debounce } from "throttle-debounce";
 
 import HeadParagraph from "../reusable-components/HeadParagraph";
 import Layout from "../reusable-components/Layout";
 import { useAppContext } from "../context/ThemeContext";
+import { mobileMaxWidth } from "../constants";
 
 const tableOfContentArray = [
 	"Who We Are",
@@ -22,13 +23,13 @@ const tableOfContentArray = [
 
 function PrivacyPolicy() {
 	const { siteTheme, state } = useAppContext();
-	const [showIcon, setShowIcon] = useState(false);
+	const [showIcon, setShowIcon] = React.useState(false);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const handleScroll = debounce(200, () => {
 			const windowWidth = window.innerWidth;
 			let cap = 5000;
-			if (windowWidth <= 412) cap = 9000;
+			if (windowWidth <= mobileMaxWidth) cap = 9000;
 			const scrollOffset = window.scrollY || window.pageYOffset;
 			if (scrollOffset < cap) setShowIcon(false);
 			if (scrollOffset > cap) setShowIcon(true);
@@ -44,7 +45,7 @@ function PrivacyPolicy() {
 		<Layout>
 			<main
 				id="main"
-				className="relative px-4 pt-24 pb-10 mx-auto max-w-max-content-width scroll-smooth">
+				className="relative px-4 pt-16 pb-10 mx-auto sm:pt-24 max-w-max-content-width">
 				{showIcon && (
 					<ScrollLink
 						to="main"
@@ -1224,7 +1225,7 @@ function PrivacyPolicy() {
 						ParagraphComponent={() => (
 							<>
 								<p className="text-sm font-thin ">
-									This Privacy Policy was last updated on: 2nd April, 2024
+									This Privacy Policy was last updated on: TBD
 								</p>
 							</>
 						)}

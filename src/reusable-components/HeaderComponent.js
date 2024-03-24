@@ -2,6 +2,7 @@ import React from "react";
 import Lottie from "react-lottie";
 import connect from "../assets/animation/connect.json";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { mobileMaxWidth } from "../constants";
 
 const defaultOptions = {
 	loop: true,
@@ -12,7 +13,7 @@ const defaultOptions = {
 	},
 };
 
-function HeaderComponent({ siteTheme, isDay }) {
+function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 	return (
@@ -22,16 +23,16 @@ function HeaderComponent({ siteTheme, isDay }) {
 				siteTheme?.headingBackground,
 				"border-b-[1px] px-3 lg:px-auto fixed w-full z-10",
 			].join(" ")}>
-			<div className="flex flex-row items-center py-1 mx-auto cursor-pointer max-w-max-content-width ">
-				<div className="w-6 h-6 sm:ml-2 sm:w-10 sm:h-10">
+			<div className="flex flex-row items-center py-2 mx-auto cursor-pointer sm:py-1 max-w-max-content-width ">
+				<div className="w-5 h-5 sm:ml-2 sm:w-10 sm:h-10">
 					<Lottie options={defaultOptions} height="100%" width="100%" />
 				</div>
-				<div className="w-[3px] rounded-full h-11 bg-brand mx-3" />
+				<div className="w-[3px] rounded-full h-7 sm:h-11 bg-brand mx-3" />
 				<div className="flex flex-row items-center justify-between flex-1">
 					<figure
 						onClick={() => navigate("/")}
 						className={[
-							"text-2xl sm:text-3xl font-bold font-arima",
+							"text-xl sm:text-3xl font-bold font-arima",
 							siteTheme?.headerTextColor,
 						].join(" ")}>
 						Wiingr
@@ -42,22 +43,22 @@ function HeaderComponent({ siteTheme, isDay }) {
 							siteTheme?.headerTextColor,
 						].join(" ")}>
 						<Link
-							to="/privacy-policy"
+							to="/privacy"
 							className={[
-								"mr-2 sm:ml-5 sm:mr-3 duration-500 ease-out",
-								isDay ? "hover:text-brandwhite/30" : "hover:text-deepGrey/20",
-								pathname === "/privacy-policy" && "font-bold",
+								"mr-4 sm:mr-10 duration-500 ease-out ",
+								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
+								pathname === "/privacy" ? "text-brandwhite" : "text-lines",
 							].join(" ")}>
-							Privacy Policy
+							{windowWidth <= mobileMaxWidth ? "Privacy" : "Privacy Policy"}
 						</Link>
 						<Link
-							to="/terms-of-service"
+							to="/terms"
 							className={[
-								"sm:mx-3 duration-500 ease-out",
-								isDay ? "hover:text-brandwhite/30" : "hover:text-deepGrey/20",
-								pathname === "/terms-of-service" && "font-bold",
+								"sm:mr-3 duration-500 ease-out ",
+								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
+								pathname === "/terms" ? "text-brandwhite" : "text-lines",
 							].join(" ")}>
-							Terms of Service
+							{windowWidth <= mobileMaxWidth ? "Terms" : "Terms of Service"}
 						</Link>
 					</div>
 				</div>

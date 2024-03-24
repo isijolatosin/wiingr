@@ -6,8 +6,8 @@ function FooterComponent({ siteTheme }) {
 	const path = pathname;
 	const footerList = [
 		{ name: "Contact Us", link: "/contact-us" },
-		{ name: "Terms & Conditions", link: "/terms-of-service" },
-		{ name: "Privacy Policy", link: "/privacy-policy" },
+		{ name: "Terms & Conditions", link: "/terms" },
+		{ name: "Privacy Policy", link: "/privacy" },
 	];
 	return (
 		<div
@@ -20,7 +20,7 @@ function FooterComponent({ siteTheme }) {
 						<Fragment key={idx}>
 							<Link
 								to={`${item.link}`}
-								className={[path === item.link && "font-extrabold"].join(" ")}>
+								className={[path === item.link && "text-lines/30"].join(" ")}>
 								{item.name}
 							</Link>
 							<span className="mx-[5px] sm:mx-1 last:hidden">•</span>
