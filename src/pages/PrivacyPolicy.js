@@ -246,7 +246,7 @@ function PrivacyPolicy() {
 								<>
 									<p className="pt-1 text-base font-thin ">
 										This Privacy Policy pertains to the websites, applications,
-										events, and other services operated under the Tinder brand.
+										events, and other services operated under the Wiingr brand.
 										For simplicity, we collectively refer to these as our
 										"services" in this Privacy Policy. To ensure clarity, we
 										have included links to this Privacy Policy on all applicable
