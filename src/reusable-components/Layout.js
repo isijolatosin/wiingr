@@ -11,7 +11,7 @@ function Layout({ children }) {
 		const currentHour = new Date().getHours();
 		return currentHour >= 7 && currentHour < 19; // Assuming daytime is between 6 AM and 6 PM
 	};
-	const [windowWidth, setWindowWidth] = useState();
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
 	useEffect(() => {
 		dispatch({
@@ -19,18 +19,15 @@ function Layout({ children }) {
 			payload: isDaytime(),
 		});
 
-		const getWindowDimension = debounce(200, () => {
-			const windowWidth = window.innerWidth;
-			setWindowWidth(windowWidth);
+		const handleResize = debounce(200, () => {
+			setWindowWidth(window.innerWidth);
 		});
 
-		window.addEventListener("resize", getWindowDimension);
+		window.addEventListener("resize", handleResize);
 		return () => {
-			window.removeEventListener("resize", getWindowDimension);
+			window.removeEventListener("resize", handleResize);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch]);
 
 	return (
 		<div className="mx-auto ">

@@ -62,11 +62,24 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 									: "/"
 							}
 							className={[
-								"sm:mr-3 duration-500 ease-out ",
+								"mr-4 sm:mr-10 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
 								pathname === "/terms" ? "text-brandwhite" : "text-lines",
 							].join(" ")}>
 							{windowWidth <= mobileMaxWidth ? "Terms" : "Terms of Service"}
+						</Link>
+						<Link
+							to={
+								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+									? "/contact-us"
+									: "/"
+							}
+							className={[
+								"sm:mr-3 duration-500 ease-out ",
+								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
+								pathname === "/contact-us" ? "text-brandwhite" : "text-lines",
+							].join(" ")}>
+							{windowWidth <= mobileMaxWidth ? "Contact" : "Contact-Us"}
 						</Link>
 					</div>
 				</div>
