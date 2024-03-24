@@ -43,7 +43,11 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 							siteTheme?.headerTextColor,
 						].join(" ")}>
 						<Link
-							to="/privacy"
+							to={
+								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+									? "/privacy"
+									: "/"
+							}
 							className={[
 								"mr-4 sm:mr-10 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
@@ -52,7 +56,11 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 							{windowWidth <= mobileMaxWidth ? "Privacy" : "Privacy Policy"}
 						</Link>
 						<Link
-							to="/terms"
+							to={
+								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+									? "/terms"
+									: "/"
+							}
 							className={[
 								"sm:mr-3 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",

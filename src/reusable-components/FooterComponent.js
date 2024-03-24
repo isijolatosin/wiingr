@@ -19,7 +19,11 @@ function FooterComponent({ siteTheme }) {
 					{footerList.map((item, idx) => (
 						<Fragment key={idx}>
 							<Link
-								to={`${item.link}`}
+								to={
+									process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+										? `${item.link}`
+										: "/"
+								}
 								className={[path === item.link && "text-lines/30"].join(" ")}>
 								{item.name}
 							</Link>
