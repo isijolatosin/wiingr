@@ -791,7 +791,7 @@ function PrivacyPolicy() {
 														being visible to others
 														<br />
 														<br />
-														f you decide to restrict the audience for all or
+														If you decide to restrict the audience for all or
 														specific parts of your profile, as well as certain
 														content or information about you, it will only be
 														visible in accordance with your chosen settings
