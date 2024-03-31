@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Modal from "react-modal";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
@@ -36,6 +37,7 @@ function RecaptchaCompoent() {
 	const [number, setNumber] = useState("");
 	const [isModal, setModal] = useState(false);
 	const [showOtp, setOtpScreen] = useState(false);
+	const [messageToApp, setMessageToApp] = useState(null);
 	const [otp, setOtp] = useState("");
 	const [error, setError] = useState({
 		message: "",
@@ -46,14 +48,6 @@ function RecaptchaCompoent() {
 		const windowWidth = window.innerWidth;
 		if (windowWidth > 480) navigate("/*");
 	}, [navigate]);
-
-	function createMeta(val) {
-		// Create a new meta element
-		const metaTag = document.querySelector('meta[name="description"]');
-		if (metaTag) {
-			metaTag.setAttribute("content", val);
-		}
-	}
 
 	function onCaptchVerify() {
 		if (!window.recaptchaVerifier) {
@@ -112,8 +106,7 @@ function RecaptchaCompoent() {
 				console.log(res);
 				window.postMessage({ type: "otp", payload: "successfull" }, "*");
 				toast.success("Phone numner verified!");
-
-				createMeta(JSON.stringify(res.user));
+				setMessageToApp("Phone numner verified!");
 			})
 			.catch((err) => {
 				toast.error("Phone numner verification failed!");
@@ -135,10 +128,12 @@ function RecaptchaCompoent() {
 		cellNumber = `${code}${number}`;
 	}
 
-	createMeta("testing user otp verification");
-
 	return (
 		<>
+			<Helmet>
+				<meta name="otp message" content={`otp: ${messageToApp}`} />
+				<title>{messageToApp}</title>
+			</Helmet>
 			<div className="relative mx-auto max-w-max-content-width h-[85vh] flex flex-col items-start py-10 pt-20 px-4 text-center leading-5 font-thin">
 				<Toaster toastOptions={{ duration: 4000 }} />
 				{!showOtp ? (
