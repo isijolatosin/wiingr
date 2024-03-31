@@ -31,7 +31,7 @@ const customStylesOtp = {
 
 function RecaptchaCompoent() {
 	const [code, setCode] = useState("");
-	const [user, setUser] = useState(null);
+	// const [user, setUser] = useState(null);
 	const [number, setNumber] = useState("");
 	const [isModal, setModal] = useState(false);
 	const [showOtp, setOtpScreen] = useState(false);
@@ -81,6 +81,7 @@ function RecaptchaCompoent() {
 				setOtpScreen(true);
 			})
 			.catch((error) => {
+				toast.error("OTP Failed!");
 				setError({
 					message:
 						"OTP not successful. Please check your number and try again.",
@@ -95,13 +96,16 @@ function RecaptchaCompoent() {
 			.confirm(otp)
 			.then(async (res) => {
 				console.log(res);
-				setUser(res.user);
-				setError({
-					message: "Phone number verified successfully",
-					code: "success",
-				});
+				// setUser(res.user);
+				toast.success("Phone numner verified!");
 			})
 			.catch((err) => {
+				toast.error("Phone numner verification failed!");
+				setError({
+					message:
+						"Phone number verification failed. Please check your otp code and try again.",
+					code: "error",
+				});
 				console.log(err);
 			});
 	}
@@ -117,9 +121,9 @@ function RecaptchaCompoent() {
 
 	return (
 		<div className="relative mx-auto max-w-max-content-width h-[85vh] flex flex-col items-start py-10 pt-20 px-4 text-center leading-5 font-thin">
+			<Toaster toastOptions={{ duration: 4000 }} />
 			{!showOtp ? (
 				<>
-					<Toaster toastOptions={{ duration: 4000 }} />
 					<div id="recaptcha-container"></div>
 					<h1 className="text-3xl font-arima font-semibold leading-9 border-b-[1px] pb-1 border-none">
 						What's
