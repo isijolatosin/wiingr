@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
 import OtpInput from "react-otp-input";
+import { useNavigate } from "react-router-dom";
 
 import { auth } from "../firebase";
 
@@ -30,8 +31,8 @@ const customStylesOtp = {
 };
 
 function RecaptchaCompoent() {
+	const navigate = useNavigate();
 	const [code, setCode] = useState("");
-	// const [user, setUser] = useState(null);
 	const [number, setNumber] = useState("");
 	const [isModal, setModal] = useState(false);
 	const [showOtp, setOtpScreen] = useState(false);
@@ -40,6 +41,11 @@ function RecaptchaCompoent() {
 		message: "",
 		code: "",
 	});
+
+	useEffect(() => {
+		const windowWidth = window.innerWidth;
+		if (windowWidth > 480) navigate("/*");
+	}, [navigate]);
 
 	function onCaptchVerify() {
 		if (!window.recaptchaVerifier) {
@@ -96,7 +102,7 @@ function RecaptchaCompoent() {
 			.confirm(otp)
 			.then(async (res) => {
 				console.log(res);
-				// setUser(res.user);
+				window.postMessage({ type: "otp", payload: "successfull" }, "*");
 				toast.success("Phone numner verified!");
 			})
 			.catch((err) => {
@@ -118,6 +124,8 @@ function RecaptchaCompoent() {
 	if (code && number) {
 		cellNumber = `${code}${number}`;
 	}
+
+	window.postMessage({ type: "otp", payload: "successfull" }, "*");
 
 	return (
 		<div className="relative mx-auto max-w-max-content-width h-[85vh] flex flex-col items-start py-10 pt-20 px-4 text-center leading-5 font-thin">
@@ -231,7 +239,7 @@ function RecaptchaCompoent() {
 				onRequestClose={() => setModal(false)}
 				style={customStyles}
 				contentLabel="Example Modal">
-				<div className="px-5 py-10 text-center shadow-lg w-fit bg-brandwhite">
+				<div className="p-10 text-sm font-thin leading-4 text-center shadow-lg w-fit bg-brandwhite">
 					<p>
 						Please note that your phone number is linked to your account for
 						security and communication purposes. If you change your phone
