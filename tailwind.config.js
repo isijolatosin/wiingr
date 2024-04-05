@@ -19,6 +19,7 @@ module.exports = {
 				basewhitelighter: "rgba(255,253,253, 0.8)",
 				error: "#D0421B",
 				deepGrey: "#111418",
+				teal: "#0d9488",
 			},
 			fontFamily: {
 				montserrat: ["Montserrat", "sans-serif"],

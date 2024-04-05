@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import { AppProvider } from "./context/ThemeContext";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./pages/ContactUs";
+import Recaptcha from "./pages/Recaptcha";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
 				<Route exact path="/privacy" element={<PrivacyPolicy />} />
 				<Route exact path="/terms" element={<TermsOfService />} />
 				<Route exact path="/contact-us" element={<ContactUs />} />
+				<Route exact path="/recaptcha" element={<Recaptcha />} />
 				<Route exact path="*" element={<ErrorPage />} />
 				<Route exact path="/" element={<HomePage />} />
 			</Routes>
