@@ -44,7 +44,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 						].join(" ")}>
 						<Link
 							to={
-								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+								process.env.REACT_APP_NODE_ENV === "production" // remove when site is live
 									? "/privacy"
 									: "/"
 							}
@@ -57,7 +57,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 						</Link>
 						<Link
 							to={
-								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+								process.env.REACT_APP_NODE_ENV === "production" // remove when site is live
 									? "/terms"
 									: "/"
 							}
@@ -70,7 +70,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 						</Link>
 						<Link
 							to={
-								process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+								process.env.REACT_APP_NODE_ENV === "production" // remove when site is live
 									? "/contact-us"
 									: "/"
 							}

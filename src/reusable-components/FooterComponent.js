@@ -20,7 +20,7 @@ function FooterComponent({ siteTheme }) {
 						<Fragment key={idx}>
 							<Link
 								to={
-									process.env.REACT_APP_NODE_ENV === "development" // remove when site is live
+									process.env.REACT_APP_NODE_ENV === "production" // remove when site is live
 										? `${item.link}`
 										: "/"
 								}
