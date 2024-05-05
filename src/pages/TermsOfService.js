@@ -8,20 +8,6 @@ import HeadParagraph from "../reusable-components/HeadParagraph";
 import { useAppContext } from "../context/ThemeContext";
 import { mobileMaxWidth } from "../constants";
 
-const tableOfContentArray = [
-	"Who We Are",
-	"Where This Privacy Policy Applies",
-	"Information We Collect",
-	"How We Use Information",
-	"How We Share Information",
-	"Your Rights",
-	"How long We Retain Your Information",
-	"Children Policy",
-	"Your California Privacy Rights",
-	"Privacy Policy",
-	"How To Contact Us",
-];
-
 function TermsOfService() {
 	const { siteTheme, state } = useAppContext();
 	const [showIcon, setShowIcon] = useState(false);
