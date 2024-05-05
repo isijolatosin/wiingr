@@ -1,3 +1,3 @@
-const mobileMaxWidth = 540;
+const mobileMaxWidth = 767;
 
 export { mobileMaxWidth };
