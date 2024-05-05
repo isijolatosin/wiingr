@@ -51,7 +51,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 							className={[
 								"mr-4 sm:mr-10 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
-								pathname === "/privacy" ? "text-brandwhite" : "text-lines",
+								pathname === "/privacy" ? "text-linesLight" : "text-lines",
 							].join(" ")}>
 							{windowWidth <= mobileMaxWidth ? "Privacy" : "Privacy Policy"}
 						</Link>
@@ -64,7 +64,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 							className={[
 								"mr-4 sm:mr-10 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
-								pathname === "/terms" ? "text-brandwhite" : "text-lines",
+								pathname === "/terms" ? "text-linesLight" : "text-lines",
 							].join(" ")}>
 							{windowWidth <= mobileMaxWidth ? "Terms" : "Terms of Service"}
 						</Link>
@@ -77,7 +77,7 @@ function HeaderComponent({ siteTheme, isDay, windowWidth }) {
 							className={[
 								"sm:mr-3 duration-500 ease-out ",
 								isDay ? "hover:text-lines/50" : "hover:text-deepGrey/20",
-								pathname === "/contact-us" ? "text-brandwhite" : "text-lines",
+								pathname === "/contact-us" ? "text-linesLight" : "text-lines",
 							].join(" ")}>
 							{windowWidth <= mobileMaxWidth ? "Contact" : "Contact-Us"}
 						</Link>
