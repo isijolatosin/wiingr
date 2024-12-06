@@ -2,14 +2,14 @@ import React from "react";
 import { getDate, getTime } from "../utilities/formatTimestamp";
 import truncateSentence from "../utilities/truncateSentences";
 
-function SelectedReportComponent({ data, siteTheme, closeModal }) {
+function SelectedReportComponent({ data, siteTheme }) {
 	return (
 		<div className="flex flex-col p-3 mb-10">
 			<div
 				className={[
-					"flex flex-col md:flex-row gap-3 mt-2 mb-5 md:mb-2 text-[14px] w-full",
+					"flex flex-col md:flex-row gap-3 mt-20 mb-5 md:mb-2 text-[14px] w-full",
 				].join(" ")}>
-				<div className="w-full h-full md:pr-3">
+				<div className="w-full h-[700px] md:h-[400px] md:pr-3">
 					<img
 						src={data.image}
 						loading="lazy"
@@ -63,9 +63,10 @@ function SelectedReportComponent({ data, siteTheme, closeModal }) {
 				</div>
 			</div>
 			<div
-				className={["flex flex-col items-start mt-5", siteTheme.textColor].join(
-					" "
-				)}>
+				className={[
+					"flex flex-col items-start mt-5 mb-10",
+					siteTheme.textColor,
+				].join(" ")}>
 				<span
 					className={[
 						"border-b-[1px] w-full pb-2 capitalize",
@@ -76,15 +77,6 @@ function SelectedReportComponent({ data, siteTheme, closeModal }) {
 				<span className="mt-3 text-start">
 					{truncateSentence(data.reason, 20)}
 				</span>
-			</div>
-			<div
-				onClick={closeModal}
-				className={[
-					"absolute bottom-5 right-5 border-[1px] px-3 py-[2px] rounded-full",
-					siteTheme.borderColor,
-					siteTheme.textColor,
-				].join(" ")}>
-				<span>Close</span>
 			</div>
 		</div>
 	);

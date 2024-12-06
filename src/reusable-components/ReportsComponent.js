@@ -2,7 +2,13 @@ import React from "react";
 import { getDate, getTime } from "../utilities/formatTimestamp";
 import truncateSentence from "../utilities/truncateSentences";
 
-function ReportsComponent({ index, data, siteTheme, functionCall }) {
+function ReportsComponent({
+	index,
+	data,
+	alertResolve,
+	siteTheme,
+	functionCall,
+}) {
 	let even = false;
 	if (index % 2 === 0) {
 		even = true;
@@ -22,7 +28,7 @@ function ReportsComponent({ index, data, siteTheme, functionCall }) {
 				].join(" ")}>
 				<div
 					className={[
-						"w-[200px] h-full border-r-[1px] pr-3",
+						"w-[200px] max-h-[200px] border-r-[1px] pr-3",
 						siteTheme.borderColor,
 					].join(" ")}>
 					<img
@@ -48,6 +54,7 @@ function ReportsComponent({ index, data, siteTheme, functionCall }) {
 						className={[
 							"text-start w-full border-b-[1px] mb-3 pb-3",
 							siteTheme.borderColor,
+							alertResolve === data.id && "text-error",
 						].join(" ")}>
 						<span className="font-semibold">Status: </span> {data.status}
 					</span>
