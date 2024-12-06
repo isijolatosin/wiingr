@@ -1,5 +1,16 @@
 #  File needed for netlify redirect. If this file is not in project, other pages on site will return Page Not Found on load
  
+ [build]
+ base = "/"
+ command = "npm run build"
+ functions = "netlify/functions"
+ publish = "build/"
+
+[[redirects]]
+ from = "/api/v1/*"
+ to="/.netlify/functions/:splat"
+ status = 200
+
  [[redirects]]
   from = "/*"
   to="/"
