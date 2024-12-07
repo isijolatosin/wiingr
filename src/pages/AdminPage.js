@@ -102,7 +102,7 @@ function AdminPage() {
 		}
 
 		if (updateText === "in review") {
-			decision = "Yet to be resolved";
+			decision = "Action yet to be taken";
 			subject = "Wiingr: Update on Your Recent Complaint Submission";
 			message = `Hello,
 
