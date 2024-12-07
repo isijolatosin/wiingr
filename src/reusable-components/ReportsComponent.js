@@ -18,7 +18,7 @@ function ReportsComponent({
 		<div
 			onClick={() => functionCall(data.id)}
 			className={[
-				"flex flex-col mb-10 border-[1px] p-3",
+				"flex flex-col mb-10 border-[1px] p-3 cursor-pointer",
 				siteTheme.borderColor,
 				even ? "md:mr-5" : "",
 			].join(" ")}>

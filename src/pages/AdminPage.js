@@ -245,7 +245,7 @@ Wiingr Support Team`;
 							<div
 								onClick={() => sendEmail("in review")}
 								className={[
-									"border-[1px] px-3 py-[2px] max-h-5 rounded-full",
+									"border-[1px] px-3 py-[2px] max-h-5 rounded-full cursor-pointer",
 									siteTheme.headerBorder,
 									siteTheme.textColor,
 								].join(" ")}>
@@ -254,7 +254,7 @@ Wiingr Support Team`;
 							<div
 								onClick={() => sendEmail("resolved", true)}
 								className={[
-									"border-[1px] px-3 py-[2px] max-h-5 rounded-full",
+									"border-[1px] px-3 py-[2px] max-h-5 rounded-full cursor-pointer",
 									siteTheme.headerBorder,
 									siteTheme.textColor,
 								].join(" ")}>
@@ -263,7 +263,7 @@ Wiingr Support Team`;
 							<div
 								onClick={() => sendEmail("resolved", false)}
 								className={[
-									"border-[1px] px-3 py-[2px] max-h-5 rounded-full",
+									"border-[1px] px-3 py-[2px] max-h-5 rounded-full cursor-pointer",
 									siteTheme.headerBorder,
 									siteTheme.textColor,
 								].join(" ")}>
@@ -273,7 +273,7 @@ Wiingr Support Team`;
 						<div
 							onClick={closeModal}
 							className={[
-								"border-[1px] px-3 py-[2px] max-h-5 rounded-full",
+								"border-[1px] px-3 py-[2px] max-h-5 rounded-full cursor-pointer",
 								siteTheme.headerBorder,
 								siteTheme.textColor,
 							].join(" ")}>
